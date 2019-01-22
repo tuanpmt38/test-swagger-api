@@ -3,6 +3,7 @@ package com.example.springapitest.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -19,14 +20,18 @@ public class ConnectApi {
 
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> respon = null;
+        ResponseEntity<String> response = null;
         try {
-             respon = restTemplate.exchange(
+            response = restTemplate.exchange(
                     url, HttpMethod.GET, entity, String.class);
-        }catch (Exception e){
+        }
+        catch (HttpClientErrorException ex){
+            logger.info("",ex.getResponseBodyAsString());
+        }
+        catch (Exception e){
             logger.info("error connect api", e);
         }
 
-        return respon;
+        return response;
     }
 }
