@@ -55,6 +55,7 @@ public class MerchantController {
     throws MerchantNotFoundException {
         Optional<Merchant> merchant = merchantService.findById(id);
         if(merchant.isPresent()){
+            LOG.info("Response merchant detail {} ", merchant);
             return new ResponseEntity<>(merchant,HttpStatus.OK);
         }else {
             throw new MerchantNotFoundException();
